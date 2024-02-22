@@ -16,7 +16,6 @@ namespace CppUIProject {
 	{
 	private:
 		String^ calcString;
-		Boolean lastCharWasNum;
 
 	public:
 		Form1(void)
@@ -24,7 +23,6 @@ namespace CppUIProject {
 			InitializeComponent();
 			
 			// Init fields
-			lastCharWasNum = true;
 			calcString = "";
 		}
 
@@ -33,24 +31,15 @@ namespace CppUIProject {
 			Int32 number = 0;
 			Boolean success = Int32::TryParse(buttonText, number);
 
-			// Handle numbers
+			// Handle numbers and operators
 			if (success) {
-				if (lastCharWasNum) calcString += number;
-				else calcString += " " + number;
-
-				lastCharWasNum = true;
+				calcString += number;
 			}
 			// Handle "="
 			else if (buttonText == "=") {
 				// Compute the equation.
 				// Write this into a separate function.
 				Console::WriteLine(calcString);
-			}
-			// Handle misc. symbols
-			else if (buttonText != "") {
-				// Append the symbol to the equation.
-				calcString += " " + buttonText;
-				lastCharWasNum = false;
 			}
 		};
 
