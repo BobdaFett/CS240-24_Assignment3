@@ -5,13 +5,13 @@ using namespace System;
 ref class Calc
 {
 private:
-	Double expression();
-	Double term();
-	Double factor();
+	static Double expression();
+	static Double term();
+	static Double factor();
 
 	static String^ currentCalcString;
 
 public:
-	Double CalculateExpression(String^ calcString);
+	static Double EvaluateExpression(String^ calcString);
 };
 

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "calc.h";
+
 namespace CppUIProject {
 
 	using namespace System;
@@ -10,38 +12,37 @@ namespace CppUIProject {
 	using namespace System::Drawing;
 
 	/// <summary>
-	/// Summary for Form1
+	/// The main form, which handles all calculator operations.
 	/// </summary>
 	public ref class Form1 : public Form
 	{
 	private:
+
+		ref struct Entry;
+
+		enum class State {
+			TOTAL,
+			ERROR,
+			NONE
+		};
+
 		String^ calcString;
+		Entry^ currentEntry;
+		Double previousTotal;
+		State currentState;
 
 	public:
-		Form1(void)
-		{
-			InitializeComponent();
-			
-			// Init fields
-			calcString = "";
-		}
+		Form1(void);
 
-		void HandleClick(Object^ sender, EventArgs^ e) {
-			String^	buttonText = (static_cast<Button^>(sender))->Text;
-			Int32 number = 0;
-			Boolean success = Int32::TryParse(buttonText, number);
+		Void AppendNumber(Int32 c);
 
-			// Handle numbers and operators
-			if (success) {
-				calcString += number;
-			}
-			// Handle "="
-			else if (buttonText == "=") {
-				// Compute the equation.
-				// Write this into a separate function.
-				Console::WriteLine(calcString);
-			}
-		};
+		Void AppendOperand(String^ c);
+		
+		Void ClearText();
+
+		String^ GetText();
+
+		Void HandleClick(Object^ sender, EventArgs^ e);
 
 	protected:
 		/// <summary>
@@ -227,8 +228,8 @@ namespace CppUIProject {
 			this->button12->Name = L"button12";
 			this->button12->Size = System::Drawing::Size(42, 27);
 			this->button12->TabIndex = 9;
+			this->button12->Text = L"Ans";
 			this->button12->UseVisualStyleBackColor = true;
-			this->button12->Click += gcnew System::EventHandler(this, &Form1::HandleClick);
 			// 
 			// button13
 			// 
