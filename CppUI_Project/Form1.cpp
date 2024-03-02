@@ -110,13 +110,24 @@ Void Form1::HandleClick(Object^ sender, EventArgs^ e) {
 					this->textBox1->Text = "OVERFLOW";
 					this->currentState = State::ERROR;
 				}
+				catch (Exception^) {
+					// The only reason the calc function will throw another error is due to a syntax
+					// error present in the passed expression.
+					this->ClearText();
+					this->textBox1->Text = "SYNTAX";
+					this->currentState = State::ERROR;
+				}
 			}
 		}
 		else if (buttonText == "CE") {
 			// Clear last entry.
 			// Requires the program to keep track of how long the current entry is.
 			// Remove the length of the current entry off of the back of the calc string.
-			if (this->currentEntry->Value == "") this->textBox1->Text = "";
+			if (this->currentState == State::ERROR ||
+				this->currentState == State::TOTAL ||
+				!this->currentEntry->IsPartial) {
+				this->textBox1->Text = "";
+			}
 			else {
 				String^ text = this->GetText();
 				this->textBox1->Text = text->Substring(0, text->Length - this->currentEntry->Value->Length);
