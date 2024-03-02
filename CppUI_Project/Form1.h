@@ -54,8 +54,8 @@ namespace CppUIProject {
 				delete components;
 			}
 		}
+
 	private: System::Windows::Forms::Button^ button1;
-	protected:
 	private: System::Windows::Forms::Button^ button2;
 	private: System::Windows::Forms::Button^ button3;
 	private: System::Windows::Forms::Button^ button4;
@@ -305,9 +305,12 @@ namespace CppUIProject {
 			// 
 			// textBox1
 			// 
-			this->textBox1->Location = System::Drawing::Point(48, 34);
+			this->textBox1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 20.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->textBox1->Location = System::Drawing::Point(48, 25);
 			this->textBox1->Name = L"textBox1";
-			this->textBox1->Size = System::Drawing::Size(280, 20);
+			this->textBox1->ReadOnly = true;
+			this->textBox1->Size = System::Drawing::Size(280, 38);
 			this->textBox1->TabIndex = 19;
 			// 
 			// button20
@@ -318,6 +321,7 @@ namespace CppUIProject {
 			this->button20->TabIndex = 21;
 			this->button20->Text = L")";
 			this->button20->UseVisualStyleBackColor = true;
+			this->button20->Click += gcnew System::EventHandler(this, &Form1::HandleClick);
 			// 
 			// button21
 			// 
@@ -327,6 +331,7 @@ namespace CppUIProject {
 			this->button21->TabIndex = 20;
 			this->button21->Text = L"(";
 			this->button21->UseVisualStyleBackColor = true;
+			this->button21->Click += gcnew System::EventHandler(this, &Form1::HandleClick);
 			// 
 			// Form1
 			// 
