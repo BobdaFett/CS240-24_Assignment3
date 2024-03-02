@@ -33,7 +33,7 @@ namespace CppUIProject {
 	public:
 		Form1(void);
 
-		Void AppendNumber(Int32 c);
+		Void AppendNumber(String^ c);
 
 		Void AppendOperand(String^ c);
 		
@@ -74,6 +74,8 @@ namespace CppUIProject {
 	private: System::Windows::Forms::Button^ button17;
 	private: System::Windows::Forms::Button^ button18;
 	private: System::Windows::Forms::Button^ button19;
+	private: System::Windows::Forms::Button^ button20;
+	private: System::Windows::Forms::Button^ button21;
 	private: System::Windows::Forms::TextBox^ textBox1;
 
 	private:
@@ -109,6 +111,8 @@ namespace CppUIProject {
 			this->button18 = (gcnew System::Windows::Forms::Button());
 			this->button19 = (gcnew System::Windows::Forms::Button());
 			this->textBox1 = (gcnew System::Windows::Forms::TextBox());
+			this->button20 = (gcnew System::Windows::Forms::Button());
+			this->button21 = (gcnew System::Windows::Forms::Button());
 			this->SuspendLayout();
 			// 
 			// button1
@@ -227,7 +231,6 @@ namespace CppUIProject {
 			this->button12->Name = L"button12";
 			this->button12->Size = System::Drawing::Size(42, 27);
 			this->button12->TabIndex = 9;
-			this->button12->Text = L"Ans";
 			this->button12->UseVisualStyleBackColor = true;
 			// 
 			// button13
@@ -304,14 +307,34 @@ namespace CppUIProject {
 			// 
 			this->textBox1->Location = System::Drawing::Point(48, 34);
 			this->textBox1->Name = L"textBox1";
-			this->textBox1->Size = System::Drawing::Size(232, 20);
+			this->textBox1->Size = System::Drawing::Size(280, 20);
 			this->textBox1->TabIndex = 19;
+			// 
+			// button20
+			// 
+			this->button20->Location = System::Drawing::Point(286, 135);
+			this->button20->Name = L"button20";
+			this->button20->Size = System::Drawing::Size(42, 27);
+			this->button20->TabIndex = 21;
+			this->button20->Text = L")";
+			this->button20->UseVisualStyleBackColor = true;
+			// 
+			// button21
+			// 
+			this->button21->Location = System::Drawing::Point(286, 102);
+			this->button21->Name = L"button21";
+			this->button21->Size = System::Drawing::Size(42, 27);
+			this->button21->TabIndex = 20;
+			this->button21->Text = L"(";
+			this->button21->UseVisualStyleBackColor = true;
 			// 
 			// Form1
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(328, 218);
+			this->ClientSize = System::Drawing::Size(375, 218);
+			this->Controls->Add(this->button20);
+			this->Controls->Add(this->button21);
 			this->Controls->Add(this->textBox1);
 			this->Controls->Add(this->button19);
 			this->Controls->Add(this->button18);

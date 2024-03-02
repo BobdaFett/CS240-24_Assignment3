@@ -52,12 +52,12 @@ Form1::Form1(void) {
 	currentState = State::NONE;
 }
 
-Void Form1::AppendNumber(Int32 c) {
+Void Form1::AppendNumber(String^ c) {
 	// Check if we're currently showing a total.
 	// Clear total if so.
 	if (currentState != State::NONE) this->ClearText();
-	this->textBox1->Text += c.ToString();
-	this->currentEntry->Value += c.ToString();
+	this->textBox1->Text += c;
+	this->currentEntry->Value += c;
 	this->currentState = State::NONE;
 }
 
@@ -88,7 +88,7 @@ Void Form1::HandleClick(Object^ sender, EventArgs^ e) {
 	
 	// Handle numbers
 	Boolean success = Int32::TryParse(buttonText, number);
-	if (success) this->AppendNumber(number);
+	if (success) this->AppendNumber(buttonText);
 
 	// Handle operators
 	else {
@@ -126,7 +126,7 @@ Void Form1::HandleClick(Object^ sender, EventArgs^ e) {
 			if (this->currentState == State::ERROR ||
 				this->currentState == State::TOTAL ||
 				!this->currentEntry->IsPartial) {
-				this->textBox1->Text = "";
+				this->ClearText();
 			}
 			else {
 				String^ text = this->GetText();
@@ -140,12 +140,16 @@ Void Form1::HandleClick(Object^ sender, EventArgs^ e) {
 			// Clear entire calc string.
 			this->ClearText();
 		}
-		else if (buttonText == "Ans") {
-			// Only add "Ans" if the value is not partial.
-			if (this->currentEntry->IsPartial) {
-				this->textBox1->Text += "Ans";
-				this->currentEntry->Value = "Ans";
-			}
+		// Unfinished - do not plan on finishing.
+		// else if (buttonText == "Ans") {
+		//	// Only add "Ans" if the value is not partial.
+		//	if (this->currentEntry->IsPartial) {
+		//		this->textBox1->Text += "Ans";
+		//		this->currentEntry->Value = "Ans";
+		// 	}
+		// }
+		else if (buttonText == ".") {
+			this->AppendNumber(buttonText);  // Treat the '.' as a part of a number.
 		}
 		else {  // Input is guaranteed to be an operator.
 			// Append to calc string.
