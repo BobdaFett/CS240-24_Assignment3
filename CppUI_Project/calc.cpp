@@ -1,6 +1,6 @@
 #include "calc.h"
 
-double Calc::EvaluateExpression(String^ calcString) {
+Double Calc::EvaluateExpression(String^ calcString) {
 	// Static function that handles running the recursive functions.
 	currentCalcString = calcString;
 	currentCalcString->Replace(" ", "");

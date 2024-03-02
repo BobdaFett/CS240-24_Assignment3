@@ -14,4 +14,3 @@ private:
 public:
 	static Double EvaluateExpression(String^ calcString);
 };
-
