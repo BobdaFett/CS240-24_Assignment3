@@ -26,7 +26,6 @@ namespace CppUIProject {
 			NONE
 		};
 
-		String^ calcString;
 		Entry^ currentEntry;
 		Double previousTotal;
 		State currentState;

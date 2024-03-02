@@ -32,7 +32,7 @@ public:
 	property Boolean IsAns;
 
 	Entry() {  // Creates a default Entry.
-		_value = "";
+		Value = "";
 		IsPartial = false;
 		IsAns = false;
 	};
@@ -48,7 +48,6 @@ Form1::Form1(void) {
 	InitializeComponent();
 
 	// Init fields
-	calcString = "";
 	currentEntry = gcnew Entry();
 	currentState = State::NONE;
 }

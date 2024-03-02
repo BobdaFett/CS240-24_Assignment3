@@ -61,20 +61,29 @@ Double Calc::factor() {
 	// This makes the looping call back to expression();
 	Double result = 0;
 	Char c = currentCalcString[0];
+	String^ numberBuildString = "";
+
+	Console::Write("Passed char:" + c + " ");
+
 	if (c == '(') {
+		// Comsume (
 		currentCalcString = currentCalcString->Substring(1);
-		Double result = expression();
+		result = expression();
+		// Consume )
 		currentCalcString = currentCalcString->Substring(1);
 	}
 	else {
 		Double tempValue = 0;
 		while (Double::TryParse(c.ToString(), tempValue) || c.ToString() == ".") {
-			// TODO Tweak this later to accept arguments from splits along ' '
-			result = 10 * result + c - '0';
+			numberBuildString += c.ToString();
 			currentCalcString = currentCalcString->Substring(1);
 			if (currentCalcString->Length == 0) break;
 			c = currentCalcString[0];
 		}
+		Console::Write(" String before parse: " + numberBuildString + " ");
+		Double::TryParse(numberBuildString, result);
 	}
+
+	Console::WriteLine("Parsed number: " + result);
 	return result;
 }
