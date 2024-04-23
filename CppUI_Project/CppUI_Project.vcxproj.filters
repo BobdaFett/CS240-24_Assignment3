@@ -14,16 +14,10 @@
     <ClCompile Include="Form1.cpp">
       <Filter>Form Files</Filter>
     </ClCompile>
-    <ClCompile Include="calc.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Form1.h">
       <Filter>Form Files</Filter>
-    </ClInclude>
-    <ClInclude Include="calc.h">
-      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

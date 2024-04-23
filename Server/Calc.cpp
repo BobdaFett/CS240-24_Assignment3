@@ -1,4 +1,4 @@
-#include "calc.h"
+#include "Calc.h"
 
 Double Calc::EvaluateExpression(String^ calcString) {
 	// Static function that handles running the recursive functions.
