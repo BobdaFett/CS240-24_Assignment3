@@ -13,8 +13,10 @@ ref class EvalConnection
 private:
 	Socket^ _socket;
 	NetworkStream^ _socketStream;
-	StreamReader^ _reader;
-	StreamWriter^ _writer;
+	BinaryReader^ _reader;
+	BinaryWriter^ _writer;
+
+	Boolean _connected;
 	
 public:
 	/// <summary>

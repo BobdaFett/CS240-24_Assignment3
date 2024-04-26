@@ -1,7 +1,5 @@
 #pragma once
 
-#include "calc.h";
-
 namespace CppUIProject {
 
 	using namespace System;
@@ -10,6 +8,10 @@ namespace CppUIProject {
 	using namespace System::Windows::Forms;
 	using namespace System::Data;
 	using namespace System::Drawing;
+	using namespace System::IO;
+	using namespace System::Net;
+	using namespace System::Net::Sockets;
+	using namespace System::Threading;
 
 	/// <summary>
 	/// The main form, which handles all calculator operations.
@@ -30,8 +32,34 @@ namespace CppUIProject {
 		Double previousTotal;
 		State currentState;
 
+		delegate Void UpdateTotal(Int32 newTotal);
+		UpdateTotal^ delegateTotal;
+
+		ref class ServerConnection
+		{
+		private:
+			Socket^ _socket;
+			NetworkStream^ _stream;
+			BinaryReader^ _reader;
+			BinaryWriter^ _writer;
+
+			Boolean _connected;
+			String^ _evalString;
+
+			Form1^ _currentForm;  // This is so we can keep track of the form that this object is running inside of.
+
+		public:
+			ServerConnection(Socket^ socket, String^ evalString, Form1^ currentForm);
+
+			Void ConnectionHandshake();
+
+			Void EvaluateExpression();
+		};
+
 	public:
 		Form1(void);
+
+		Void UpdateTotalFunction(Int32 newTotal);
 
 		Void AppendNumber(String^ c);
 

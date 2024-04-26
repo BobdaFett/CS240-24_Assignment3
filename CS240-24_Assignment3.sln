@@ -6,6 +6,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Client", "CppUI_Project\CppUI_Project.vcxproj", "{FB19C1C0-34A8-4476-AB0B-EE18A2AA6D02}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Server", "Server\Server.vcxproj", "{6B3F9451-8475-45FC-A3B6-719349D5A188}"
+	ProjectSection(ProjectDependencies) = postProject
+		{FB19C1C0-34A8-4476-AB0B-EE18A2AA6D02} = {FB19C1C0-34A8-4476-AB0B-EE18A2AA6D02}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
