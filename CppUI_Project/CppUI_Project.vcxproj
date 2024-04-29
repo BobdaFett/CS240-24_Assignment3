@@ -123,13 +123,11 @@
   <ItemGroup>
     <ClCompile Include="Form1.cpp" />
     <ClCompile Include="ServerConnection.cpp" />
-    <ClCompile Include="TimeoutTimer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Form1.h">
       <FileType>CppForm</FileType>
     </ClInclude>
-    <ClInclude Include="TimeoutTimer.h" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Form1.resx">

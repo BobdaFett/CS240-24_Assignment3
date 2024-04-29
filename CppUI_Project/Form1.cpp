@@ -1,5 +1,4 @@
 #include "Form1.h"
-#include "TimeoutTimer.h"
 
 using namespace System;
 using namespace System::Windows::Forms;
@@ -92,6 +91,12 @@ String^ Form1::GetText() {
 	return this->textBox1->Text;
 }
 
+Void Form1::SetError(String^ errMsg) {
+	this->ClearText();
+	this->textBox1->Text = errMsg;
+	this->currentState = State::ERROR;
+}
+
 Void Form1::HandleClick(Object^ sender, EventArgs^ e) {
 	String^ buttonText = (static_cast<Button^>(sender))->Text;
 	Int32 number = 0;
@@ -118,32 +123,28 @@ Void Form1::HandleClick(Object^ sender, EventArgs^ e) {
 					socket->Connect(endpoint);
 					ServerConnection^ connection = gcnew ServerConnection(socket, calcString, this);
 
-					// Ensure that the TCP handshake occurs.
-					try {
-						connection->ConnectionHandshake();
-					}
-					catch (Exception^ e) {
-						Console::WriteLine("Connection failed: {0}", e->Message);
-						socket->Close();
-						return;
-					}
-
 					Thread^ childThread = gcnew Thread(gcnew ThreadStart(connection, &ServerConnection::EvaluateExpression));
 					childThread->Start();
 				}
 				catch (OverflowException^) {
 					// Calculated value is over the limit of a double variable.
-					// Double objects tend to be pretty good about how they handle memory.
-					this->ClearText();
-					this->textBox1->Text = "OVERFLOW";
-					this->currentState = State::ERROR;
+					// Double objects tend to be pretty good about how they handle this.
+					this->SetError("OVERFLOW");
 				}
-				catch (Exception^) {
+				catch (SocketException^ e) {
+					Console::WriteLine("SocketException: {0}", e->Message);
+					this->SetError("SCKTERR");
+				}
+				catch (IOException^ e) {
+					// This is thrown from the client when there is a communication error.
+					Console::WriteLine("IOException: {0}", e->Message);
+					this->SetError("NETERR");
+				}
+				catch (Exception^ e) {
 					// The only reason the calc function will throw another error is due to a syntax
 					// error present in the passed expression.
-					this->ClearText();
-					this->textBox1->Text = "SYNTAX";
-					this->currentState = State::ERROR;
+					Console::WriteLine("Error: {0}", e->Message);
+					this->SetError("SYNTAX");
 				}
 			}
 		}

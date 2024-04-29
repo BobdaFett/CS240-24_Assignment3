@@ -16,7 +16,7 @@ int main() {
 	listener->Bind(endpoint);
 	listener->Listen(3);  // Allow 3 connections to be held in queue.
 
-	Console::WriteLine("Done.");
+	Console::WriteLine("Done - socket bound to address {0}", ip);
 
 	// Start checking for connections.
 	// The server will run until told to stop, by C-c or otherwise.

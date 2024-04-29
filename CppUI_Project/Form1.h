@@ -69,6 +69,8 @@ namespace CppUIProject {
 
 		String^ GetText();
 
+		Void SetError(String^ errMsg);
+
 		Void HandleClick(Object^ sender, EventArgs^ e);
 
 	protected:

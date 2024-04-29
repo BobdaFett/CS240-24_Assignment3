@@ -23,7 +23,7 @@ Void Form1::ServerConnection::ConnectionHandshake() {
 	// Wait for response.
 	Console::WriteLine("Reading...");
 	String^ response = _reader->ReadString();
-	if (response != "SYN-ACK") throw gcnew Exception("Server failed to respond properly.");
+	if (response != "SYN-ACK") throw gcnew IOException("Server failed to respond properly.");
 
 	// Send ACK
 	Console::WriteLine("Sending ACK");
@@ -36,22 +36,63 @@ Void Form1::ServerConnection::ConnectionHandshake() {
 
 Void Form1::ServerConnection::EvaluateExpression() {
 	// Check if the connection is complete.
-	if (!_connected) {
+	/*if (!_connected) {
 		Console::WriteLine("Client is not properly connected. Ensure that ConnectionHandshake completes.");
 		return;
+	}*/
+
+	// Attempt the connection handshake.
+	Console::Write("Attempting to connect to server.... ");
+	Int32 connectionAttempts = 0;
+	while (!_connected || connectionAttempts != 3) {
+		try {
+			connectionAttempts++;
+			this->ConnectionHandshake();
+		}
+		catch (IOException^ e) {
+			// we would like to try this again a couple more times.
+			// Display an error message.
+			Console::Write("Failed.\nRetrying connection... ");
+		}
 	}
+	if (connectionAttempts == 3) {
+		// The connection has failed. Stop retrying and throw error.
+		Console::WriteLine("Aborting.");
+		throw gcnew IOException("Connection failed - could not complete connection handshake.");
+	}
+	Console::WriteLine("Done.");
 
 	Console::WriteLine("Sending string to server...");
 
 	// Build and send the packets to the server.
 	for (int i = 0; i < _evalString->Length; i++) {
+		Char toSend = _evalString[i];
 		// Send the char to the server.
-		_writer->Write(_evalString[i]);
+		_writer->Write(toSend);
 
-		Console::WriteLine("Sent {0}", _evalString[i]);
+		Console::WriteLine("Sent {0}", toSend);
 
 		// Read for ACK from server.
 		String^ response = _reader->ReadString();
+		Int32 numRetries = 0;
+		
+		// Assuming that the client gets a NAK, it has 5 attempts to send something the right way back.
+		// Otherwise, this will terminate the connection as the equation will not send properly.
+		while (response != "ACK" && numRetries < 5) {
+			// Send the token again
+			_writer->Write(toSend);
+			numRetries++;
+			Console::WriteLine("Attempting to resend token... attempt {0}", numRetries);
+
+			// Try to get the ACK again.
+			response = _reader->ReadString();
+		}
+
+		if (numRetries >= 5) {
+			// disconnect from the server and throw an error.
+			_socket->Close();
+			throw gcnew IOException("Network error during evaluation - Retries exceeded.");
+		}
 	}
 
 	// Send the EOS token to signal the end of the string.

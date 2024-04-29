@@ -17,9 +17,6 @@
     <ClCompile Include="Form1.cpp">
       <Filter>Form Files</Filter>
     </ClCompile>
-    <ClCompile Include="TimeoutTimer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ServerConnection.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -27,9 +24,6 @@
   <ItemGroup>
     <ClInclude Include="Form1.h">
       <Filter>Form Files</Filter>
-    </ClInclude>
-    <ClInclude Include="TimeoutTimer.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

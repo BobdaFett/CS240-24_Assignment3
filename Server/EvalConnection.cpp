@@ -55,11 +55,19 @@ Void EvalConnection::ProcessExpression() {
 		// Add this string to the end of the current evalString.
 		// This is a bad security practice, but we will assume  that verification
 		// of the tokens has been done by the client for now.
-		// TODO Create restriction for accepted tokens.
-		evalString += temp;
+		Int32 parsedTemp = 0;
+		Boolean canParse = Int32::TryParse(temp.ToString(), parsedTemp);
 
-		// Send a verification token to the client.
-		_writer->Write("ACK");
+		if (canParse || temp == '+' || temp == '-' || temp == '(' || temp == ')' || temp == '/' || temp == '*') {
+			// This is a valid token, accept and add to evalString.
+			evalString += temp;
+			_writer->Write("ACK");
+		}
+		else {
+			// Tell the client that it sent an invalid token.
+			// At this point, it will try to send the token again, but the server will simply loop.
+			_writer->Write("NAK");
+		}
 	}
 	
 	Console::WriteLine("{0}: Evaluating expression {1}", threadName, evalString);
