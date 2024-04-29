@@ -77,8 +77,8 @@ Void Form1::ServerConnection::EvaluateExpression() {
 		Int32 numRetries = 0;
 		
 		// Assuming that the client gets a NAK, it has 5 attempts to send something the right way back.
-		// Otherwise, this will terminate the connection as the equation will not send properly.
-		while (response != "ACK" && numRetries < 5) {
+		// Otherwise, this will terminate the connection as the equation will not send properly at all.
+		while (response == "NAK" && numRetries < 5) {
 			// Send the token again
 			_writer->Write(toSend);
 			numRetries++;

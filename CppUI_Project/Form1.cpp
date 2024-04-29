@@ -143,7 +143,7 @@ Void Form1::HandleClick(Object^ sender, EventArgs^ e) {
 				catch (Exception^ e) {
 					// The only reason the calc function will throw another error is due to a syntax
 					// error present in the passed expression.
-					Console::WriteLine("Error: {0}", e->Message);
+					Console::WriteLine("Exception: {0}", e->Message);
 					this->SetError("SYNTAX");
 				}
 			}
