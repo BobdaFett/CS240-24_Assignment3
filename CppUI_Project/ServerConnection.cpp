@@ -14,42 +14,33 @@ Form1::ServerConnection::ServerConnection(Socket^ socket, String^ evalString, Fo
 
 Void Form1::ServerConnection::ConnectionHandshake() {
 	// Attempt to handshake with the server.
-	Console::WriteLine("Attempting handshake with server.");
 
 	// Send SYN
-	Console::WriteLine("Sending SYN");
+	//Console::WriteLine("Sending SYN");
 	_writer->Write("SYN");
 
 	// Wait for response.
-	Console::WriteLine("Reading...");
+	//Console::WriteLine("Reading...");
 	String^ response = _reader->ReadString();
 	if (response != "SYN-ACK") throw gcnew IOException("Server failed to respond properly.");
 
 	// Send ACK
-	Console::WriteLine("Sending ACK");
+	//Console::WriteLine("Sending ACK");
 	_writer->Write("ACK");
-
-	Console::WriteLine("Connection completed.");
 
 	_connected = true;
 }
 
 Void Form1::ServerConnection::EvaluateExpression() {
-	// Check if the connection is complete.
-	/*if (!_connected) {
-		Console::WriteLine("Client is not properly connected. Ensure that ConnectionHandshake completes.");
-		return;
-	}*/
-
 	// Attempt the connection handshake.
 	Console::Write("Attempting to connect to server.... ");
 	Int32 connectionAttempts = 0;
-	while (!_connected || connectionAttempts != 3) {
+	while (!_connected && connectionAttempts <= 3) {
 		try {
 			connectionAttempts++;
 			this->ConnectionHandshake();
 		}
-		catch (IOException^ e) {
+		catch (Exception^) {
 			// we would like to try this again a couple more times.
 			// Display an error message.
 			Console::Write("Failed.\nRetrying connection... ");
@@ -66,7 +57,7 @@ Void Form1::ServerConnection::EvaluateExpression() {
 
 	// Build and send the packets to the server.
 	for (int i = 0; i < _evalString->Length; i++) {
-		Char toSend = _evalString[i];
+		String^ toSend = _evalString[i].ToString();
 		// Send the char to the server.
 		_writer->Write(toSend);
 
@@ -96,7 +87,7 @@ Void Form1::ServerConnection::EvaluateExpression() {
 	}
 
 	// Send the EOS token to signal the end of the string.
-	_writer->Write('E');
+	_writer->Write("EOS");
 
 	Console::WriteLine("Waiting for response from server...");
 

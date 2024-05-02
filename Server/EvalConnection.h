@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Calc.h";
+#include "Calc.h"
 
 using namespace System;
 using namespace System::IO;

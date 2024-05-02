@@ -3,7 +3,7 @@ using namespace System::Net;
 using namespace System::Net::Sockets;
 using namespace System::Threading;
 
-#include "EvalConnection.h";
+#include "EvalConnection.h"
 
 int main() {
 	Console::WriteLine("Starting server...");
@@ -29,17 +29,6 @@ int main() {
 
 		// Use the connection to create a new EvalConnection object.
 		EvalConnection^ handler = gcnew EvalConnection(connection);
-
-		// Run the TCP handshake for the socket.
-		try {
-			handler->ConnectionHandshake();
-		}
-		catch (Exception^ e) {
-			// Show error message, close, and skip connection.
-			Console::WriteLine("Connection failed: {0}", e->Message);
-			connection->Close();
-			continue;
-		}
 
 		// Use the handler to create a new thread which will process the message.
 		Thread^ process = gcnew Thread(gcnew ThreadStart(handler, &EvalConnection::ProcessExpression));
