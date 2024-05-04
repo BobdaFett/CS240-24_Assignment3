@@ -31,30 +31,35 @@ namespace CppUIProject {
 		Entry^ currentEntry;
 		Double previousTotal;
 		State currentState;
+		Int32 _percentInvalid;
 
-		delegate Void UpdateTotal(Int32 newTotal);
-		UpdateTotal^ delegateTotal;
+	private: System::Windows::Forms::TrackBar^ trackBar1;
+	private: System::Windows::Forms::Label^ label1;
+	private: System::Windows::Forms::Label^ percentLabel;
 
-		ref class ServerConnection
-		{
-		private:
-			Socket^ _socket;
-			NetworkStream^ _stream;
-			BinaryReader^ _reader;
-			BinaryWriter^ _writer;
+		   delegate Void UpdateTotal(Int32 newTotal);
+		   UpdateTotal^ delegateTotal;
 
-			Boolean _connected;
-			String^ _evalString;
+		   ref class ServerConnection
+		   {
+		   private:
+			   Socket^ _socket;
+			   NetworkStream^ _stream;
+			   BinaryReader^ _reader;
+			   BinaryWriter^ _writer;
 
-			Form1^ _currentForm;  // This is so we can keep track of the form that this object is running inside of.
+			   Boolean _connected;
+			   String^ _evalString;
 
-		public:
-			ServerConnection(Socket^ socket, String^ evalString, Form1^ currentForm);
+			   Form1^ _currentForm;  // This is so we can keep track of the form that this object is running inside of.
 
-			Void ConnectionHandshake();
+		   public:
+			   ServerConnection(Socket^ socket, String^ evalString, Form1^ currentForm);
 
-			Void EvaluateExpression();
-		};
+			   Void ConnectionHandshake();
+
+			   Void EvaluateExpression();
+		   };
 
 	public:
 		Form1(void);
@@ -64,7 +69,7 @@ namespace CppUIProject {
 		Void AppendNumber(String^ c);
 
 		Void AppendOperand(String^ c);
-		
+
 		Void ClearText();
 
 		String^ GetText();
@@ -72,6 +77,8 @@ namespace CppUIProject {
 		Void SetError(String^ errMsg);
 
 		Void HandleClick(Object^ sender, EventArgs^ e);
+
+		Void HandleTrackBar(Object^ sender, EventArgs^ e);
 
 	protected:
 		/// <summary>
@@ -112,7 +119,7 @@ namespace CppUIProject {
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
-		System::ComponentModel::Container ^components;
+		System::ComponentModel::Container^ components;
 
 #pragma region Windows Form Designer generated code
 		/// <summary>
@@ -143,6 +150,10 @@ namespace CppUIProject {
 			this->textBox1 = (gcnew System::Windows::Forms::TextBox());
 			this->button20 = (gcnew System::Windows::Forms::Button());
 			this->button21 = (gcnew System::Windows::Forms::Button());
+			this->trackBar1 = (gcnew System::Windows::Forms::TrackBar());
+			this->label1 = (gcnew System::Windows::Forms::Label());
+			this->percentLabel = (gcnew System::Windows::Forms::Label());
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->trackBar1))->BeginInit();
 			this->SuspendLayout();
 			// 
 			// button1
@@ -363,11 +374,41 @@ namespace CppUIProject {
 			this->button21->UseVisualStyleBackColor = true;
 			this->button21->Click += gcnew System::EventHandler(this, &Form1::HandleClick);
 			// 
+			// trackBar1
+			// 
+			this->trackBar1->Location = System::Drawing::Point(96, 214);
+			this->trackBar1->Maximum = 100;
+			this->trackBar1->Name = L"trackBar1";
+			this->trackBar1->Size = System::Drawing::Size(232, 45);
+			this->trackBar1->TabIndex = 22;
+			this->trackBar1->ValueChanged += gcnew System::EventHandler(this, &Form1::HandleTrackBar);
+			// 
+			// label1
+			// 
+			this->label1->AutoSize = true;
+			this->label1->Location = System::Drawing::Point(41, 223);
+			this->label1->Name = L"label1";
+			this->label1->Size = System::Drawing::Size(52, 13);
+			this->label1->TabIndex = 23;
+			this->label1->Text = L"% Invalid:";
+			// 
+			// percentLabel
+			// 
+			this->percentLabel->AutoSize = true;
+			this->percentLabel->Location = System::Drawing::Point(328, 223);
+			this->percentLabel->Name = L"percentLabel";
+			this->percentLabel->Size = System::Drawing::Size(21, 13);
+			this->percentLabel->TabIndex = 24;
+			this->percentLabel->Text = L"0%";
+			// 
 			// Form1
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(375, 218);
+			this->ClientSize = System::Drawing::Size(375, 261);
+			this->Controls->Add(this->percentLabel);
+			this->Controls->Add(this->label1);
+			this->Controls->Add(this->trackBar1);
 			this->Controls->Add(this->button20);
 			this->Controls->Add(this->button21);
 			this->Controls->Add(this->textBox1);
@@ -392,10 +433,11 @@ namespace CppUIProject {
 			this->Controls->Add(this->button1);
 			this->Name = L"Form1";
 			this->Text = L"Problem 1 - Calculator";
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->trackBar1))->EndInit();
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
 		}
 #pragma endregion
+	};
 };
-}

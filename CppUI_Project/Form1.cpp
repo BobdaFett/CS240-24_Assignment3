@@ -169,14 +169,6 @@ Void Form1::HandleClick(Object^ sender, EventArgs^ e) {
 			// Clear entire calc string.
 			this->ClearText();
 		}
-		// Unfinished - do not plan on finishing.
-		// else if (buttonText == "Ans") {
-		//	// Only add "Ans" if the value is not partial.
-		//	if (this->currentEntry->IsPartial) {
-		//		this->textBox1->Text += "Ans";
-		//		this->currentEntry->Value = "Ans";
-		// 	}
-		// }
 		else if (buttonText == ".") {
 			this->AppendNumber(buttonText);  // Treat the '.' as a part of a number.
 		}
@@ -185,4 +177,10 @@ Void Form1::HandleClick(Object^ sender, EventArgs^ e) {
 			this->AppendOperand(buttonText);
 		}
 	}
+}
+
+Void Form1::HandleTrackBar(Object^ sender, EventArgs^ e) {
+	_percentInvalid = trackBar1->Value;
+
+	percentLabel->Text = _percentInvalid.ToString() + "%";
 }

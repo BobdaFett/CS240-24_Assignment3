@@ -55,13 +55,28 @@ Void Form1::ServerConnection::EvaluateExpression() {
 
 	Console::WriteLine("Sending string to server...");
 
+	// Initialize random number generator.
+	Random^ rand = gcnew Random();
+
 	// Build and send the packets to the server.
 	for (int i = 0; i < _evalString->Length; i++) {
 		String^ toSend = _evalString[i].ToString();
-		// Send the char to the server.
-		_writer->Write(toSend);
 
-		Console::WriteLine("Sent {0}", toSend);
+		// On first send, check if the value should be incorrect.
+		// If so, send an "I" instead of the actual string.
+		Console::WriteLine("Current chance of incorrect packets: {0}%", _currentForm->_percentInvalid);
+		Int32 chance = rand->Next(100);
+		Console::WriteLine("Random number: {0}", chance);
+
+		if (chance <= _currentForm->_percentInvalid) {
+			// Send an incorrect string.
+			_writer->Write("I");
+			Console::WriteLine("Sent I");
+		}
+		else {
+			_writer->Write(toSend);
+			Console::WriteLine("Sent {0}", toSend);
+		}
 
 		// Read for ACK from server.
 		String^ response = _reader->ReadString();

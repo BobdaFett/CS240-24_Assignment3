@@ -81,6 +81,7 @@ Void EvalConnection::ProcessExpression() {
 			else {
 				// Tell the client that it sent an invalid token.
 				// At this point, it will try to send the token again, but the server will simply loop.
+				Console::WriteLine("Recieved invalid data - Attempting to retry.");
 				_writer->Write("NAK");
 			}
 		}
